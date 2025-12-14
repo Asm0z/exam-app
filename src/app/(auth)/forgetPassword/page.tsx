@@ -30,17 +30,11 @@ export default function ForgetPasswordPage() {
   // State
   const [btnLoading, setBtnLoading] = React.useState<boolean>(false);
   const [errMsg, setErrMsg] = React.useState<string>("");
-  const [defaultEmail, setDefaultEmail] = React.useState<string>("");
 
-  // Use effect to save user email in local storage
-  React.useEffect(() => {
-    const email = localStorage.getItem("resetEmail") || "";
-    setDefaultEmail(email);
-  }, []);
   // Form
   const form = useForm<ForgetPasswordSchemaType>({
     defaultValues: {
-      email: defaultEmail,
+      email: "",
     },
     resolver: zodResolver(forgetPasswordSchema),
     mode: "onChange",
@@ -80,6 +74,14 @@ export default function ForgetPasswordPage() {
       setBtnLoading(false);
     }
   }
+
+  // Use effect to save user email in local storage
+  React.useEffect(() => {
+    const email = localStorage.getItem("resetEmail") || "";
+    if (email) {
+      form.setValue("email", email);
+    }
+  }, [form]);
   return (
     <div className="flex flex-col justify-center px-36">
       {/* Header */}

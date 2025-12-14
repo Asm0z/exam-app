@@ -30,12 +30,11 @@ export default function ResetPasswordPage() {
   const [showRePassword, setShowRePassword] = useState(true);
   const [btnLoading, setBtnLoading] = useState<boolean>(false);
   const [errMsg, setErrMsg] = useState<string>("");
-  const [resetEmail, setResetEmail] = useState<string>("");
 
   // Form
   const form = useForm<ResetPasswordSchemaType>({
     defaultValues: {
-      email: resetEmail,
+      email: "",
       newPassword: "",
       confirmPassword: "",
     },
@@ -77,8 +76,11 @@ export default function ResetPasswordPage() {
 
   // Use effect to get email from local storage
   useEffect(() => {
-    setResetEmail(localStorage.getItem("resetEmail") || "");
-  }, []);
+    const email = localStorage.getItem("resetEmail") || "";
+    if (email) {
+      form.setValue("email", email);
+    }
+  }, [form]);
 
   return (
     <div className="flex flex-col justify-center px-36">
