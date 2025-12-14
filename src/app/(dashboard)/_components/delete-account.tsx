@@ -30,7 +30,7 @@ export default function DeleteAccount() {
       } else {
         // Redirect to register page and signout to clear cookies
         signOut({
-          callbackUrl: "/login",
+          callbackUrl: "/register",
         });
       }
     } catch (error) {
