@@ -14,6 +14,7 @@ import {
 import { DeleteAccountAPI } from "@/lib/Action/auth.api";
 import { TriangleAlert } from "lucide-react";
 import { useState } from "react";
+import { signOut } from "next-auth/react";
 
 export default function DeleteAccount() {
   // State
@@ -27,8 +28,10 @@ export default function DeleteAccount() {
       if ("code" in payload) {
         throw new Error(payload.message);
       } else {
-        // Redirect to register page
-        window.location.href = "/register";
+        // Redirect to register page and signout to clear cookies
+        signOut({
+          callbackUrl: "/login",
+        });
       }
     } catch (error) {
       console.error("Error deleting account:", error);
@@ -42,7 +45,7 @@ export default function DeleteAccount() {
       <DialogTrigger asChild>
         <Button variant="reversedDestructive">Delete My Account</Button>
       </DialogTrigger>
-      <DialogContent >
+      <DialogContent>
         <DialogHeader className="text-center my-14">
           <div className="w-20 h-20 rounded-full bg-red-100 ring-[1.25rem] ring-red-50 my-8 mx-auto flex justify-center items-center">
             <TriangleAlert strokeWidth={1} className="text-red-600 w-12 h-12" />
